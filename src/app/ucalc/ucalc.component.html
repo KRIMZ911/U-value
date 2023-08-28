@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">U-Value Calculator</h1>
+        </header>
+        <form #userForm="ngForm"  (ngSubmit)="onSubmit(userForm)" novalidate>
+            <div class="form-group">
+                <label>
+                    External
+                </label>
+                <input required type="text" class="form-control" placeholder="Always 0.04" [(ngModel)]="model.externalResistance" name="externalResistance" readonly />
+                <label>
+                    Internal
+                </label>
+                <select class="form-control" [(ngModel)]="model.internalResistance" placeholder="Choose an internal surface" name="internalResistance">
+                    <option value="" disabled selected >Choose an internal surface</option>
+                    <option value="0.13">Wall (0.13)</option>
+                    <option value="0.10">Roof (0.10)</option>
+                    <option value="0.17">Floor (0.17)</option>
+                    
+                </select>
+                <div *ngFor="let material of model.materials; let i = index" class="material-section">
+                    <h4>Material {{ i + 1 }}</h4>
+                    <label>Thickness</label>
+                    <input required type="text" class="form-control" placeholder="Thickness" [(ngModel)]="material.thickness" name="materialThickness_{{ i }}" />
+                    
+                    <label>Conductivity</label>
+                    <input required type="text" class="form-control" placeholder="Conductivity" [(ngModel)]="material.conductivity" name="materialConductivity_{{ i }}" />
+                </div>
+            
+                <button class="btn btn-primary" style="margin-top: 7px;" (click)="addLayer()" type="button">
+                    Add new material to calculation
+                </button>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 5px;" type="submit">Submit</button>
+            <button class="btn btn-primary" style="margin-top: 10px;" style="margin-left: 5px;" (click)="refreshPage()">Restart Calculation</button>
+        </form>
+        <div class="row current-external-resistance" [hidden]="!submitted">
+            <p style="font-size: 32px; font-weight: 500;">U-Value: {{ model.uValue | number : '1.4-4' }}</p>
+        </div>
+    </div>
+</body>
+</html>
