@@ -15,21 +15,21 @@ export class UcalcComponent implements OnInit{
   submitted = false;
 
   model: {
-    externalResistance: string;
+    externalResistance: number | null;
     internalResistance: number | null;
     thickness: number | null; 
     conductivity: number | null; 
     materials: Material[]; 
     uValue: number | null;
-    kValue: string;
+    kValue: number | null;
   } = {
-    externalResistance: "0.04",
+    externalResistance: 0.04,
     internalResistance: null,
     thickness: null,
     conductivity: null,
     materials: [],
     uValue: null,
-    kValue: "",
+    kValue: null,
   };
 
   addLayer() {
@@ -38,14 +38,16 @@ export class UcalcComponent implements OnInit{
   }
 
   onSubmit(userForm: any) {
-
+    this.model.kValue = 0;
     for (const material of this.model.materials) { 
       this.model.kValue += eval(material.thickness) / eval(material.conductivity); 
+      console.log(`kValue: ${this.model.kValue}`);
     }
 
-    this.model.uValue = 1 / (eval(this.model.externalResistance) + eval(userForm.value.internalResistance) + eval(this.model.kValue));
+    this.model.uValue = 1 / (this.model.externalResistance + eval(userForm.value.internalResistance) + this.model.kValue);
     this.submitted = true;
   }
+  
 
   refreshPage() {
     window.location.reload();

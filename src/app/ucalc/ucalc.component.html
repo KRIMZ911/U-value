@@ -44,7 +44,7 @@
             <button class="btn btn-primary" style="margin-top: 10px;" style="margin-left: 5px;" (click)="refreshPage()">Restart Calculation</button>
         </form>
         <div class="row current-external-resistance" [hidden]="!submitted">
-            <p style="font-size: 32px; font-weight: 500;">U-Value: {{ model.uValue | number : '1.4-4' }}</p>
+            <p style="font-size: 32px; font-weight: 500;">U-Value: {{ model.uValue }}</p>
         </div>
     </div>
 </body>
